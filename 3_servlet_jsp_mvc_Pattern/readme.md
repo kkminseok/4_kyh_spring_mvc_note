@@ -4,7 +4,7 @@
 1. 서블릿으로 웹 어플리케이션 제작. (2_Servlet_WebApplication.md)
 2. JSP로 회원관리 웹 어플리케이션 제작 (3_JSP_WebApplication.md)
 3. JSP 한계로 인해 MVC패턴 학습
-4. MVC 적용 및 한계점
+4. MVC 적용 및 한계점(4_MVC_Pattern.md)
 5. 마무리
    
 
