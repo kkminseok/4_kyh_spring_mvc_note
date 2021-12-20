@@ -22,7 +22,7 @@
 
 이 챕터에서는 다음을 다룰 것이다.
 
-1. 프론트 컨트롤러 도입 
+1. 프론트 컨트롤러 도입 (1_Front_Controller_Introduction.md)
 2. view 분리
 3. Model 추가
 4. 단순한 컨트롤러
