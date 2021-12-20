@@ -1,4 +1,4 @@
-# Servlet  노트
+# Servlet 노트
 
 ## 프로젝트 생성  
 
