@@ -20,7 +20,7 @@ build.gradle에 다음과 같이 추가하자.
 
 ```java
 //JSP 추가 시작
-implementation 'org.apache.tomcat.embed:tomcat-embed-jasper' implementation 'javax.servlet:jstl'
+implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'   implementation 'javax.servlet:jstl'
 //JSP 추가 끝
 ```
 
