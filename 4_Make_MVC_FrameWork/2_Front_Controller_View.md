@@ -65,7 +65,7 @@ public MyView process(HttpServletRequest request, HttpServletResponse response) 
 }
 ```
 
-굉장히 간결해져싿.
+굉장히 간결해졌다.
 
 ## 2. MemberSaveController 수정 - 회원 저장
 
