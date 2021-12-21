@@ -124,3 +124,9 @@ myView.render(request,response);
 
 나의 경우 URL을 따로 지정해서 v2/~로 시작하게 된다. url을 수정하지 않았다면 v1/~로 나오는게 정상이다.!!
 
+# 한계
+
+- 서블릿 종속성을 제거
+    + view에 관한 정보만 리턴하는 MemberFormController의 경우는 HttpServletRequest, HttpServletResponse객체가 필요가 없다. 어떻게 해결할 수 있을까?
+- 뷰 이름 중복 제거
+    + '/WEB-INF/views/~' 는 중복된 url이다. 다음에 이를 고쳐보도록 하겠다.
