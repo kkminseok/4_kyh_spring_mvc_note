@@ -250,3 +250,7 @@ public class ControllerV4HandlerAdapter implements MyHandlerAdapter {
 
 # 정리 (추가예정)
 
+중요한건 어댑터를 통해 새로운 객체를 넣을때 프론트 컨트롤러 코드는 몇개 추가 안해주었다는 것이다.  
+
+또한 스프링MVC는 결국 이러한 과정을 통해 만들어졌다는 것이다.
+
