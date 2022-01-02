@@ -180,3 +180,223 @@ public class SpringMemberListControllerV1 {
 
 ![](img/v1save.png)  
 
+다만, List코드에서 mv를 반환했는데, 어떤 동작방식으로 흘러가길래 뷰까지 처리하는걸까? 뒤에서 알아볼 것이다.
+
+
+일단 하나의 컨트롤러에 몰아넣어보자.
+
+
+# 컨트롤러 통합 ControllerV2
+
+```java
+package hello.servlet.web.v2;
+
+import hello.servlet.basic.domain.Member;
+import hello.servlet.basic.domain.MemberRepository;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+
+@Controller
+public class SpringMemberControllerV2 {
+
+    private MemberRepository memberRepository = MemberRepository.getInstance();
+
+    @RequestMapping("/kms/springmvc/v2/members/new-form")
+    public ModelAndView newform(){
+        return new ModelAndView("new-form");
+    }
+
+
+
+
+    @RequestMapping("/kms/springmvc/v2/members")
+    public ModelAndView members(){
+
+        List<Member> members = memberRepository.findByAll();
+
+        ModelAndView mv = new ModelAndView("members");
+        mv.addObject("members",members);
+        return mv;
+    }
+
+
+    @RequestMapping("/kms/springmvc/v2/members/save")
+    public ModelAndView save(HttpServletRequest request, HttpServletResponse response){
+        //요청 정보를 가져옴.
+        String username = request.getParameter("username");
+        int height = Integer.parseInt(request.getParameter("height"));
+        int weight = Integer.parseInt(request.getParameter("weight"));
+
+        Member member = new Member(username,height,weight);
+
+        memberRepository.save(member);
+
+        ModelAndView mv = new ModelAndView("save-result");
+
+        //객체를 넣음
+        mv.addObject("member",member);
+        return mv;
+    }
+
+}
+
+```
+
+그냥 다 복붙했다. 물론 URL경로는 수정해주었다.
+
+확인해볼 것도 없이 잘 돌아간다.
+
+하지만, 매 번 RequestMapping()을 넣는건 번거롭다. 클래스단위로 바꿔서 수정해보자.
+
+```java
+
+@Controller
+@RequestMapping("/kms/springmvc/v2/members")
+public class SpringMemberControllerV2 {
+@RequestMapping("/new-form")
+    public ModelAndView newform(){
+        ...
+    }
+
+    @RequestMapping()
+    public ModelAndView members(){
+        ...
+    }
+
+
+    @RequestMapping("/save")
+    public ModelAndView save(HttpServletRequest request, HttpServletResponse response){
+        ...
+    }
+
+}
+```
+
+요로콤 수정해주면 잘 돌아간다.
+
+결국 근데 코드에서 ModelAndView라는 객체를 매 번 생성해줘서 작업을 해주고 있다.
+
+이를 바꿔볼 것이다.
+
+새로운 자바 코드를 만들어서 다음과 같이 수정하자.
+
+# 컨트롤러 리팩토링 ControllerV3
+
+```java
+@Controller
+@RequestMapping("/kms/springmvc/v3/members")
+public class SpringMemberControllerV3 {
+
+    private MemberRepository memberRepository = MemberRepository.getInstance();
+
+    @RequestMapping("/new-form")
+    public String newform(){
+        return "new-form";
+    }
+
+    @RequestMapping()
+    public String members(Model model){
+
+        List<Member> members = memberRepository.findByAll();
+        model.addAttribute("members",members);
+        return "members";
+    }
+
+    @RequestMapping("/save")
+    public String save(
+            @RequestParam("username") String username,
+            @RequestParam("height") int height,
+            @RequestParam("weight") int weight,
+            Model model
+    ){
+        Member member = new Member(username,height,weight);
+        memberRepository.save(member);
+
+        model.addAttribute("member",member);
+        return "save-result";
+    }
+}
+```
+
+먼저, 기존에 리턴값이 ModelAndView인거와 달리 Stringd으로 논리적 뷰 이름을 전달하게 바꾸었다.
+
+또한, Model이라는 객체를 통해 ModelAndView를 따로 생성하지 않게 되었다.  
+_@RequestParam_ 이라는 애노테이션 덕분에 request, response객체를 파라미터로 넘길 필요가 없어졌고, **형변환**또한 스프링에게 맡길 수 있게 되었다.
+
+결과를 보자.
+
+![](img/v3result.png)  
+
+
+잘된다.
+
+근데 이것도 불편한 부분이 있다.
+
+요청을 아무거나 받는다는 것이다.
+
+Restful하게 짜려면 어떤 요청에 대해서 Get만 받고, Post만 받는건 당연한건데 위의 방식은 Get이고 Post고 뭐고 요청만 보내면 다 받아버린다는 것이다.
+
+이렇게 해결하자.
+
+_@RequestMapping_ 애노테이션에 명시를 해주는 것이다.
+
+```java
+    @RequestMapping(value = "/new-form" ,method = RequestMethod.GET)
+    public String newform(){
+        ...
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public String members(Model model){
+        ...
+    }
+
+    @RequestMapping(value = "/save",method = RequestMethod.POST)
+    public String save(
+            @RequestParam("username") String username,
+            @RequestParam("height") int height,
+            @RequestParam("weight") int weight,
+            Model model
+    ){
+        ...
+    }
+```
+
+요로콤  _method_ 를 작성해주면 아무요청이나 받지않는다. Postman에서 확인할 수 있다.
+
+근데 이 마저도 불편한 점이 있다.
+
+_@RequestMapping_ 의 구문이 길어져서 치기 힘들다는 것이다. 이것도 고쳐버리자.
+
+```java
+    @GetMapping(value = "/new-form")
+    public String newform(){
+        ...
+    }
+
+    @GetMapping
+    public String members(Model model){
+        ...
+    }
+
+    @PostMapping(value = "/save")
+    public String save(
+            @RequestParam("username") String username,
+            @RequestParam("height") int height,
+            @RequestParam("weight") int weight,
+            Model model
+    ){
+        ...
+    }
+```
+
+_@GetMapping_ 과 _@PostMapping_ 를 사용해서 더 편리하게 코드를 작성할 수 있다.
+
+참고로 _@GetMapping_ 에 들어가보면 다음과 같이 따로 적어뒀던 구문이 애노테이션으로 적혀있다.
+
+![](img/getanno.png)  
