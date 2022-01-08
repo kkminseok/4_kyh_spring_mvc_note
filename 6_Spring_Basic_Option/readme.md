@@ -25,6 +25,6 @@ Dependencies : Spring Web, Thymeleaf, Lombok
 
 1. 로그 테스트(1_Logging.md)
 2. 요청 매핑(2_Mapping.md)
-
+3. HTTP 요청에 대하여. 스프링이 받는 파라미터들에 대한 내용. 진화.(3_HTTP_Request.md)  
 ...
 

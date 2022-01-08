@@ -356,5 +356,5 @@ public class RequestHeaderController {
     크게 다른건 없다. 하나의 key와 여러 value를 갖는 맵이다.
 
 - _@RequestHeader("host") String host_ 는 특정 HTTP 헤더를 조회한다.
-- _@CookieValue_ 또한 특정 쿠키를 조회한다. 코드에는 쿠키설정을 안 해줘서 null로 나온다.
+- _@CookieValue_ 또한 특정 쿠키를 조회한다. 코드에는 쿠키설정 을 안 해줘서 null로 나온다.
 
