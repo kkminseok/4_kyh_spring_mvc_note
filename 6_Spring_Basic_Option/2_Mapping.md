@@ -231,8 +231,70 @@ consume과 비슷하게 produce는 Accept헤더를 보고 작동한다.
 - Content-Type은 해당 헤더에 있는 데이터가 오지 않았을 경우 서버 입장에서 요청 거부 즉 서버는 헤더요청을 소비(consume)함.
 
 
+# 요청 매핑 - API 예시
 
+나는 롤을 많이했으므로 롤에 대해 예시를 들겠다.
 
+롤 챔피언 관리를 HTTP API로 만든다 생각하고 매핑을 어떻게 하는지 보자.
 
+- 챔피언 목록 조회 : GET /champions
+- 챔피언 등록 : POST /champions
+- 챔피언 조회 : GET /champions/{championId}
+- 챔피언 수정 : PATCH /champions/{championId}
+- 챔피언 삭제 : DELETE /champions/{championId}
+
+```java
+package hello.springmvc.basic.reqeustmapping;
+
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/kms-mapping/champions")
+public class ChampionController {
+
+    /**
+     * GET /kms-mapping/champions
+     */
+    @GetMapping
+    public String champions(){
+        return "get champions";
+    }
+
+    /**
+     * POST /kms-mapping/champions
+     */
+    @PostMapping
+    public String addChampions(){
+        return "post champions";
+    }
+
+    /**
+     * GET /kms-mapping/champions/{champions}
+     */
+    @GetMapping("/{championId}")
+    public String findChampion(@PathVariable String championId){
+        return "get championId :" + championId;
+    }
+
+    /**
+     * PATCH /kms-mapping/champions/{champions}
+     */
+    @PatchMapping("/{championId}")
+    public String updateChampion(@PathVariable String championId){
+        return "patch championId : " + championId;
+    }
+
+    /**
+     * DELETE /kms-mapping
+     */
+    @DeleteMapping("/{championId}")
+    public String deleteChampion(@PathVariable String championId){
+        return "delete championId : " + championId;
+    }
+}
+
+```
+
+Postman으로 다 테스트하면 다 잘된다.
 
 
