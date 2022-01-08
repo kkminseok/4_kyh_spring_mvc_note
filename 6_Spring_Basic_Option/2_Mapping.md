@@ -298,3 +298,63 @@ public class ChampionController {
 Postman으로 다 테스트하면 다 잘된다.
 
 
+# 요청 매핑 - 기본, 헤더 조회
+
+이번에는 HTTP 헤더를 조회하는 방법을 알아보자.
+
+직관적이다.
+
+```java
+package hello.springmvc.basic.reqeustmapping;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpMethod;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Locale;
+
+@Slf4j
+@RestController
+public class RequestHeaderController {
+
+    @RequestMapping("/headers")
+    public String headers(HttpServletRequest request,
+                          HttpServletResponse response,
+                          HttpMethod httpMethod,
+                          Locale locale,
+                          @RequestHeader MultiValueMap<String,String> headerMap,
+                          @RequestHeader("host") String host,
+                          @CookieValue(value = "kms-cookie",required = false) String cookie){
+        log.info("request = {}",request);
+        log.info("response = {}",response);
+        log.info("httpMethod = {}",httpMethod);
+        log.info("Locale = {}",locale);
+        log.info("headerMap = {}",headerMap);
+        log.info("header host = {}",host);
+        log.info("kms-cookie = {}",cookie);
+
+        return "ok";
+    }
+}
+
+```
+
+결과
+
+![](img/header_result.png)  
+
+설명할 부분이 많지는 않다.
+
+- 먼저, _@RequestHeader MultiValueMap<String,String> headerMap_ 이부분에서 MultiValueMap이 뭔지 궁금하다.
+
+    크게 다른건 없다. 하나의 key와 여러 value를 갖는 맵이다.
+
+- _@RequestHeader("host") String host_ 는 특정 HTTP 헤더를 조회한다.
+- _@CookieValue_ 또한 특정 쿠키를 조회한다. 코드에는 쿠키설정을 안 해줘서 null로 나온다.
+
