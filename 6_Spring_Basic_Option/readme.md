@@ -24,5 +24,7 @@ Dependencies : Spring Web, Thymeleaf, Lombok
 **밑의 내용은 추가 됩니다.**
 
 1. 로그 테스트(1_Logging.md)
+2. 요청 매핑(2_Mapping.md)
+
 ...
 
