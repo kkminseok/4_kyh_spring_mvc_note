@@ -331,3 +331,84 @@ public class RequestParamController {
 
 파라미터의 값이 1개가 확실하다면 _Map_ 을 사용해도 되지만, 그렇지 않다면 _MultiValueMap_ 을 사용하자.!
 
+# HTTP 요청 파라미터 - @ModelAttribute
+
+실제 개발을 하다보면 요청파라미터를 받아서 필요한 객체를 만들고 그 객체에 값을 넣어줘야 한다. 보통 다음과 같이 코드를 작성할 것이다.
+
+```java
+package hello.springmvc.basic;
+
+import lombok.Data;
+
+@Data
+public class BmiData {
+    private String name;
+    private int height;
+    private int weight;
+}
+
+```
+
+BMI계산에 필요한 user객체이다. 
+
+## @Data
+
+- 롬복에서 제공하는 애노테이션으로 @Getter, @Setter, @ToString, @EqualsAndHashCode, @RequiredArgsConstructor를 자동으로 제공한다.
+
+@ModelAttribute를 적용하면 더 편리하게 파라미터를 받을수 있다.
+
+```java
+package hello.springmvc.basic.request;
+
+import hello.springmvc.basic.BmiData;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Map;
+
+@Slf4j
+@Controller
+public class RequestParamController {
+
+    @ResponseBody
+    @RequestMapping("/kms-model-attribute-v1")
+    public String modelAttributeV1(@ModelAttribute BmiData bmiData){
+        log.info("username = {} , height = {} , weight = {}",bmiData.getName(),bmiData.getHeight(),bmiData.getWeight());
+        return "ok";
+    }
+
+
+}
+
+```
+
+결과
+
+![](img/modelresult.JPG)  
+
+보기에 너무 간편하지만 좀 더 직접적인 이유가 없을까?
+
+만약 저 3가지 변수를 RequestParam으로 받아온다면 코드가 얼마나 길어질지 감이 잡히는가?
+
+그렇기에 객체에 자동으로 넣어주는 _@ModelAttribute_ 가 편한것이다.
+
+참고로 스프링 MVC는 _@ModelAttribute_ 가 있으면 다음과 같이 실행한다.
+
+1. BmiData 객체 생성
+2. 요청 파라미터의 이름으로 BmiData 객체의 프로퍼티를 찾는다. 해당 프로퍼티의 setter를 호출해서 파라미터의 값을 바인딩한다.
+
+또한, 객체의 값을 수정하면 set~()함수가 호출되고 값을 조회하면 get~()함수가 호출된다.
+
+심지어 위 코드에서 _@ModelAttribute_ 를 생략할 수 있다.
+
+_@RequestParam_ 도 생략이 가능해서 스프링은 생략시 다음과 같은 규칙을 적용한다.
+
+- String, int, Integer 같은 단순 타입 = @RequestParam 지정.
+- 나머지는 @ModelAttribute(단, argument resolver로 지정해둔 타입 외 ex] HttpServeltResponse 등)
