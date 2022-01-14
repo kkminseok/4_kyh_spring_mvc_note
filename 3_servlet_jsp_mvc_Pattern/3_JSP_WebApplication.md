@@ -1,4 +1,4 @@
-# JSP로 웹 어플리케이션 만들기
+# 1. JSP로 웹 어플리케이션 만들기
 
 Servlet으로 웹 어플리케이션을 만들기는 굉장히 비효율적이라는 것을 알았다.
 
@@ -33,7 +33,7 @@ gradle을 다시 빌드해주자.
 
 위처럼 3가지 파일을 만들어줄 것이다.
 
-## 회원 등록 폼 JSP (main/webapp/jsp/members/new-form.jsp)
+## 1.1 회원 등록 폼 JSP (main/webapp/jsp/members/new-form.jsp)
 
 ```jsp
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -60,7 +60,7 @@ url로 접근해보자.
 
 이제 Post로 보낸 데이터를 받아 출력하는 페이지를 작성한다.
 
-## 회원 저장 JSP (main/webapp/jsp/members/save.jsp)
+## 1.2 회원 저장 JSP (main/webapp/jsp/members/save.jsp)
 
 
 ```jsp
@@ -106,7 +106,7 @@ url로 접근해보자.
 
 마지막으로 회원 목록을 조회하는 JSP를 작성해보겠다.
 
-## 회원 목록 JSP (main/webapp/jsp/members.jsp)
+## 1.3 회원 목록 JSP (main/webapp/jsp/members.jsp)
 
 ```jsp
 <%@ page import="hello.servlet.basic.domain.MemberRepository" %>
@@ -158,14 +158,14 @@ url로 접근해보자.
 성공이다.
 
 
-# 결론 / 서블릿과 JSP의 한계
+# 2. 결론 / 서블릿과 JSP의 한계
 
 서블릿으로 개발할 때 뷰화면을 위한 HTML을 만드는 작업이 자바 코드에 섞여서 복잡했다.  
 이에 대한 해결방안으로 JSP가 나왔다. 뷰를 생성하는 HTML 작업을 깔끔하게 가져갔지만 한 페이지에 JAVA 코드, 저장소에 대한 정보, HTML코드 다 짬뽕되어서 JSP가 너무 많은 역할을 한다. 유지보수에서도 골치가 아플 것이다.
 
 이를 해결하기 위해서 *MVC*패턴이 등장했다.
 
-## MVC 패턴
+## 2.1 MVC 패턴
 
 Model, View, Controller의 약자로 비즈니스 로직은 서블릿처럼 다른곳에서 처리하고, HTML은 View를 그리는 역할로 분리하여 코드를 작성하자는 뜻이다.
 

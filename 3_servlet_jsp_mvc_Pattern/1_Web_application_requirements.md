@@ -1,4 +1,4 @@
-# 도메인 모델 작성
+# 1. 도메인 모델 작성
 
 domain 패키지를 만들고 그 안에 Member라는 클래스를 작성하였다.
 
@@ -117,7 +117,7 @@ Spring을 사용하면 스프링빈으로 등록하여 싱글톤 패턴을 사�
 
 싱글톤 패턴이 뭘까?
 
-## 싱글톤 패턴
+## 1.1 싱글톤 패턴
 
 하나의 인스턴스를 생성하여 모든 클라이언트에게 동일한 객체를 반환하는 패턴이다.
 
@@ -131,12 +131,12 @@ if(instance == null){ //최초 한번만 new 연산자를 통하여 메모리에
 
 최초 할당시 위처럼 객체를 새로 생성하지만 위의 코드는 그렇지 않다. 자동으로 감지하여 생성해주나보다.
 
-# 테스트 코드
+# 2. 테스트 코드
 
 
 테스트 코드를 작성해보자.
 
-## 멤버 저장 테스트 코드
+## 2.1 멤버 저장 테스트 코드
 
 ```java
 package hello.servlet.domain;
@@ -172,7 +172,7 @@ class MemberRepositoryTest {
 
 ```
 
-## findByall Test
+## 2.2 findByall Test
 
 ```java
     @Test
@@ -193,7 +193,7 @@ class MemberRepositoryTest {
     }
 ```
 
-## 결과
+## 2.3 결과
 
 ![](img/testresult.png)  
 

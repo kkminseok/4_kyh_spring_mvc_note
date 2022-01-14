@@ -1,4 +1,4 @@
-# HTTP 요청 파라미터 - 쿼리파라미터, HTML FORM
+# 1. HTTP 요청 파라미터 - 쿼리파라미터, HTML FORM
 
 클라이언트에서 서버로 요청 데이터를 전달할 때는 주로 다음 3가지 방법을 사용한다.
 
@@ -14,7 +14,7 @@
   - HTTP API에 주로 사용된다. JSON, XML, TEXT
   - 데이터 형식은 주로 JSON이 사용된다.
 
-## GET,쿼리 파라미터로 전송.
+## 1.1 GET,쿼리 파라미터로 전송.
 
 자바 파일을 만들자.
 
@@ -50,7 +50,7 @@ public class RequestParamController {
 
 기본적인 예제이다. <http://localhost:8080/kms-request-param-v1?username=kms&height=178> 으로 들어가면 된다.
 
-## Post로 Form 전송
+## 1.2 Post로 Form 전송
 
 전송하기 위해 html 파일을 만들어야한다.
 
@@ -88,7 +88,7 @@ url에 데이터를 넣냐 html에 데이터 넣냐의 차이다.
 GET은 데이터를 보낸다는 것 보다는 조회목적으로 쓰자.
 
 
-# HTTP 요청 파라미터 - @RequestParam
+# 2. HTTP 요청 파라미터 - @RequestParam
 
 _@RequestParam_ 애노테이션을 이용해서 요청 파라미터를 관리해보자.
 
@@ -195,7 +195,7 @@ public class RequestParamController {
 
 이러한 방식은 팀원들끼리 협의가 되어있어야 한다. 너무 줄여서 헷갈릴수 있기 때문이다. _@RequestParam_ 을 명시하여 요청 파라미터에서 데이터를 읽는 다는 것을 알 수 있다.
 
-## 파라미터 필수 여부 - requestParamRequired
+## 2.1 파라미터 필수 여부 - requestParamRequired
 
 ```java
 package hello.springmvc.basic.request;
@@ -255,7 +255,7 @@ username&height=178
 
 여기서 필요한건 _requestParamDefault_ 이다.
 
-### 기본값 적용 - requestParamDefault
+### 2.1.1 기본값 적용 - requestParamDefault
 
 ```java
 package hello.springmvc.basic.request;
@@ -297,7 +297,7 @@ public class RequestParamController {
 
 또한 파라미터를 Map으로 조회할 수 있다.
 
-## requestParamMap
+## 2.2 requestParamMap
 
 
 ```java
@@ -331,7 +331,7 @@ public class RequestParamController {
 
 파라미터의 값이 1개가 확실하다면 _Map_ 을 사용해도 되지만, 그렇지 않다면 _MultiValueMap_ 을 사용하자.!
 
-# HTTP 요청 파라미터 - @ModelAttribute
+# 3. HTTP 요청 파라미터 - @ModelAttribute
 
 실제 개발을 하다보면 요청파라미터를 받아서 필요한 객체를 만들고 그 객체에 값을 넣어줘야 한다. 보통 다음과 같이 코드를 작성할 것이다.
 
@@ -351,7 +351,7 @@ public class BmiData {
 
 BMI계산에 필요한 user객체이다. 
 
-## @Data
+## 3.1 @Data
 
 - 롬복에서 제공하는 애노테이션으로 @Getter, @Setter, @ToString, @EqualsAndHashCode, @RequiredArgsConstructor를 자동으로 제공한다.
 

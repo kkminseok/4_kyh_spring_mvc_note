@@ -1,4 +1,4 @@
-# HTTPServletRequest에 대해
+# 1. HTTPServletRequest에 대해
 
 HTTPServletRequest는 HTTP 요청 메시지를 개발자가 편리하게 사용할 수 있도록 개발자 대신에 HTTP 요청 메시지를 파싱해옴. 이런 것이 없다면 개발자가 직접 파싱해야할 것이다.!
 
@@ -21,7 +21,7 @@ request.getSession(create: true)
 
 위 처럼 임시 저장소 기능도 제공하며 세션관리 기능도 제공한다.
 
-# HTTPServletRequest 메소드들
+# 2. HTTPServletRequest 메소드들
 
 새 자바파일을 만들어서 Servlet을 등록해보자.
 
@@ -49,7 +49,7 @@ public class HttpRequestTest extends HttpServlet {
 
 ```
 
-## printStartLine() - > StartLine에 대한 정보.
+## 2.1 printStartLine() - > StartLine에 대한 정보.
 
 ```java
 private void printStartLine(HttpServletRequest request) {
@@ -77,7 +77,7 @@ private void printStartLine(HttpServletRequest request) {
 
 ![](img/httprequest_startline.png)
 
-## printHeaderData() -> 헤더 정보
+## 2.2 printHeaderData() -> 헤더 정보
 
 ```java
     private void printHeaderData(HttpServletRequest request){
@@ -101,7 +101,7 @@ private void printStartLine(HttpServletRequest request) {
     }
 ```
 
-## printHeaderUtils() - > 헤더 편의 기능
+## 2.3 printHeaderUtils() - > 헤더 편의 기능
 
 ```java
     private void printHeaderUtils(HttpServletRequest request) {
@@ -140,7 +140,7 @@ private void printStartLine(HttpServletRequest request) {
     }
 ```
 
-## printEtc() -> 네트워크 관련
+## 2.4 printEtc() -> 네트워크 관련
 
 ```java
 private void printEtc(HttpServletRequest request) {

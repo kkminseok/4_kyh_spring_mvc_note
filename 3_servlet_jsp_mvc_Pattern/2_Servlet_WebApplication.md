@@ -1,4 +1,4 @@
-# 서블릿으로 웹 어플리케이션 제작
+# 1. 서블릿으로 웹 어플리케이션 제작
 
 개요 부분에서 작성한 코드를 가지고 서블릿을 통한 동적 웹을 작성해보자.
 
@@ -12,7 +12,7 @@
 
 web.servlet에 코드를 다 넣을 것이다.
 
-## MemberFormServlet - 회원 등록 폼
+## 1.1 MemberFormServlet - 회원 등록 폼
 
 ```java
 package hello.servlet.basic.web.servlet;
@@ -66,7 +66,7 @@ public class MemberFormServlet extends HttpServlet {
 
 전달받는 부분을 만들어보자.
 
-## MemberSaveServlet - 회원 저장
+## 1.2 MemberSaveServlet - 회원 저장
 
 ```java
 package hello.servlet.basic.web.servlet;
@@ -142,7 +142,7 @@ public class MemberSaveServlet extends HttpServlet {
 
 이제 회원 전체 목록을 조회하는 폼을 만들어볼 것이다.
 
-## MemberListServlet - 회원 목록
+## 1.3 MemberListServlet - 회원 목록
 
 ```java
 package hello.servlet.basic.web.servlet;
@@ -213,7 +213,7 @@ public class MemberListServlet extends HttpServlet {
 
 ![](img/userlist_result.png)  
 
-# 결론
+# 2. 결론
 
 동적으로 HTML을 만들 수 있지만, 태그를 직접 출력해야하고 오타가 날 위험이 있다.
 매우 복잡하면서도 비효율적인 이 코드는 결국 자바를 이용해서 문서를 출력하는 것 보다는 HTML에 자바 코드를 넣는게 더 편리할 것이라는 생각으로 템플릿 엔진이 탄생하였다.  

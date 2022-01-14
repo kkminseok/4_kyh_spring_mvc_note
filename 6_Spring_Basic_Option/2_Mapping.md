@@ -1,7 +1,7 @@
-# 요청 매핑
+# 1. 요청 매핑
 
 
-## 기본 매핑
+## 1.1 기본 매핑
 
 기본적인 형태의 매핑 방식이다. 
 
@@ -36,7 +36,7 @@ public class MappingController {
 - 다음 두 요청은 다른 URL이지만 스프링은 같은 요청으로 매핑한다.  
     ex) "/kms-basic-request", "/kms-basic-request/"
 
-## HTTP 메서드 매핑
+## 1.2 HTTP 메서드 매핑
 
 ```java
 
@@ -60,7 +60,7 @@ public class MappingController {
 
 위에 로그들은 GET요청을 보냈을 때 정상적으로 로직이 수행된 것이다.
 
-## HTTP 메서드 축약
+## 1.3 HTTP 메서드 축약
 
 ```java
     /**
@@ -80,7 +80,7 @@ public class MappingController {
 
 즉, 위처럼 _GetMapping_ 라는 애노테이션을 달아주면 _@RequestMapping_ 에 _method = RequestMethod.GET_ 을 써준거나 똑같아진다.
 
-## PathVariable(경로 변수)
+## 1.4 PathVariable(경로 변수)
 
 최근 HTTP API는 리소스 경로에 식별자를 넣는 스타일을 선호한다.
 
@@ -111,7 +111,7 @@ _@GetMapping_ 안에는 '{}'에 변수 값이 들어온다는 것을 알려주�
 
 ![](img/variablemapping.png)  
 
-## PathVariable 사용 - 다중
+## 1.5 PathVariable 사용 - 다중
 
 ```java
     @GetMapping("/kms/mapping/{userId}/champion/{chamname}")
@@ -127,7 +127,7 @@ _@GetMapping_ 안에는 '{}'에 변수 값이 들어온다는 것을 알려주�
 
 자알된다.
 
-## 특정 파라미터 조건 매핑
+## 1.6 특정 파라미터 조건 매핑
 
 ```java
     /**
@@ -160,7 +160,7 @@ _@GetMapping_ 안에는 '{}'에 변수 값이 들어온다는 것을 알려주�
 
 이런 기능이다.
 
-## 특정 헤더 조건 매핑
+## 1.7 특정 헤더 조건 매핑
 
 ```java
     /**
@@ -183,7 +183,7 @@ _@GetMapping_ 안에는 '{}'에 변수 값이 들어온다는 것을 알려주�
 
 champion 헤더와 그 값으로 vayne을 갖는 헤더를 추가해서 요청하면 'ok'가 떨어진다.
 
-## 미디어 타입 조건 매핑 - ContentType, consume
+## 1.8 미디어 타입 조건 매핑 - ContentType, consume
 
 ```java
    /**
@@ -205,7 +205,7 @@ champion 헤더와 그 값으로 vayne을 갖는 헤더를 추가해서 요청�
 ![](img/consume.png)  
 
 
-## 미디어 타입 조건 매핑 Accept, produce
+## 1.9 미디어 타입 조건 매핑 Accept, produce
 
 ```java
    /**
@@ -224,14 +224,14 @@ champion 헤더와 그 값으로 vayne을 갖는 헤더를 추가해서 요청�
 
 consume과 비슷하게 produce는 Accept헤더를 보고 작동한다.
 
-### Accept, Conent-Type
+### 1.9.1 Accept, Conent-Type
 
 - Accept은 클라이언트가 선호하는 표현을 요청한다. 즉, 클라이언트 입장에서 응답을 받을때, Accept 헤더에 있는 데이터 타입이 오지 않으면 거절한다. 즉, 서버입장에서는 생성(produce)한 데이터 타입이 맞지 않으면 거절.
 
 - Content-Type은 해당 헤더에 있는 데이터가 오지 않았을 경우 서버 입장에서 요청 거부 즉 서버는 헤더요청을 소비(consume)함.
 
 
-# 요청 매핑 - API 예시
+# 2. 요청 매핑 - API 예시
 
 나는 롤을 많이했으므로 롤에 대해 예시를 들겠다.
 
@@ -298,7 +298,7 @@ public class ChampionController {
 Postman으로 다 테스트하면 다 잘된다.
 
 
-# 요청 매핑 - 기본, 헤더 조회
+# 3. 요청 매핑 - 기본, 헤더 조회
 
 이번에는 HTTP 헤더를 조회하는 방법을 알아보자.
 

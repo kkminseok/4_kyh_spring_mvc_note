@@ -1,8 +1,8 @@
-# HttpServletResponse 정리
+# 1. HttpServletResponse 정리
 
 응답코드를 지정할 수 있는데, 개발자가 편하게 지정할 수 있도록 해당 객체가 많은 기능을 제공한다.
 
-## 기본 사용법
+## 1.1 기본 사용법
 
 java파일을 만들자.
 
@@ -77,7 +77,7 @@ public class HttpResponse extends HttpServlet {
 
 직접 헤더를 조정하는것은 오타가날 위험도 있으므로 객체가 지원하는 편의 메소드들을 사용하자.!!
 
-## 단순 텍스트, HTML 응답.
+## 1.2 단순 텍스트, HTML 응답.
 
 단순 텍스트 응답은 앞에서 코드로 작성한 
 
@@ -128,7 +128,7 @@ public class HttpResponseHTML extends HttpServlet {
 
 html로 잘 응답한걸 볼 수 있다.
 
-## API JSON으로 응답하기.
+## 1.3 API JSON으로 응답하기.
 
 java 파일을 생성하자.
 

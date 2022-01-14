@@ -1,14 +1,14 @@
-# 프론트 컨트롤러 도입 - v1
+# 1. 프론트 컨트롤러 도입 - v1
 
 먼저 구조를 바꿔볼 것이다.
 
 각자의 역할을 하는 컨트롤러의 인터페이스 만들어보자.
 
-## 프로젝트 구조
+## 1.2 프로젝트 구조
 
 ![](img/frontcontroller_directory.png)  
 
-## 1. ControllerV1 Interface
+## 1.3 ControllerV1 Interface
 
 ```java
 package hello.servlet.web.frontcontroller.v1;
@@ -27,7 +27,7 @@ public interface ControllerV1 {
 이제 필요한 컨트롤러는 이 인터페이스를 이용해서 구현하면 된다.  
 먼저 회원 등록 컨트롤러를 만들어보자.
 
-## 2. MemberFormControllerV1 - 회원 등록 컨트롤러
+## 1.4 MemberFormControllerV1 - 회원 등록 컨트롤러
 
 ```java
 package hello.servlet.web.frontcontroller.v1.controller;
@@ -54,7 +54,7 @@ public class MemberFormControllerV1 implements ControllerV1 {
 
 내부 코드는 Servlet-mvc에서 작성한 코드랑 동일하다.
 
-## 3. MemberSaveControllerV1 - 회원 저장 컨트롤러
+## 1.5 MemberSaveControllerV1 - 회원 저장 컨트롤러
 
 ```java
 package hello.servlet.web.frontcontroller.v1.controller;
@@ -99,7 +99,7 @@ public class MemberSaveControllerV1 implements ControllerV1 {
 
 마찬가지로 앞에서 작성한 servlet-mvc의 save코드와 다른게 없다.
 
-## 4. MemberListControllerV1 - 회원 목록 컨트롤러
+## 1.6 MemberListControllerV1 - 회원 목록 컨트롤러
 
 ```java
 package hello.servlet.web.frontcontroller.v1.controller;
@@ -136,7 +136,7 @@ public class MemberListControllerV1 implements ControllerV1 {
 
 프론트 컨트롤러를 만들어볼 것이다.
 
-## 5. FrontControllerServletV1 - 프론트 컨트롤러
+## 1.7 FrontControllerServletV1 - 프론트 컨트롤러
 
 ```java
 package hello.servlet.web.frontcontroller.v1;
