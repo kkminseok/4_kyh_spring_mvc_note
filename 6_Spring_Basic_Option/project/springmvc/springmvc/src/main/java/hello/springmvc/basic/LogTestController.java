@@ -14,6 +14,8 @@ public class LogTestController {
     public String logTest(){
         String name = "Log test Project by Kms";
 
+        
+
         log.trace("trace log ={}",name);
         log.debug("debug log ={}",name);
         log.info("info log = {}",name);
