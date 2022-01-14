@@ -222,10 +222,10 @@ public class RequestBodyController {
 이렇게 메시지 바디를 직접 조회하는 기능은 요청 파라미터를 조회하는 @RequestParam ,
 @ModelAttribute 와는 전혀 관계가 없다.
 
-- 요청 파라미터 vs HTTP 메시지 바디
+- 요청 파라미터 vs HTTP 메시지 바디  
 요청 파라미터를 조회하는 기능: @RequestParam , @ModelAttribute
 
-HTTP 메시지 바디를 직접 조회하는 기능: @RequestBody
+HTTP 메시지 바디를 직접 조회하는 기능: @RequestBody  
 
 - @ResponseBody
   
