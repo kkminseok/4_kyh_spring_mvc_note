@@ -193,4 +193,246 @@ spring.thymeleaf.suffix=.html
 
 따라서 논리적 뷰를 반환할 때 뒤에 .html을 안 붙여도 되는 이유이다.
 
+# 2. HTTP Response - HTTP API, 메시지 바디에 직접 입력
 
+앞에서 했던 내용들이지만 복습해야한다.
+
+응답메시지를 보낼때 뷰나 템플릿을 거치지 않고 직접 HTTP 응답 메시지를 작성하는 방법들이다.
+
+
+## 2.1 원시적인 방법 - HTTPServlet 사용
+
+```java
+package hello.springmvc.basic.response;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@Controller
+public class ResponseController {
+
+    @GetMapping("/kms-response-string-v1")
+    public void responseBodyV1(HttpServletRequest request, HttpServletResponse response)throws IOException {
+        response.getWriter().write("V1 ok");
+    }
+
+}
+
+```
+
+## 2.2 ResponseEntity<> 사용.
+
+```java
+package hello.springmvc.basic.response;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@Controller
+public class ResponseController {
+    @GetMapping("/kms-response-string-v2")
+    public ResponseEntity<String> responseBodyV2(){
+        return new ResponseEntity<>("V2 ok", HttpStatus.OK);
+    }
+}
+```
+
+여기서 주목해야할 점은 내가 직접 HTTP 상태값을 바꿀 수 있다는 것이다. 즉 분기에 따라서 상태값들을 바꾸기 용이하다는 것이다.
+
+## 2.3 @ResponseBody 사용
+
+```java
+package hello.springmvc.basic.response;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@Controller
+public class ResponseController {
+    @ResponseBody
+    @GetMapping("/kms-response-string-v3")
+    public String responseBodyV3(){
+        return "V3 ok";
+    }
+}
+
+```
+
+## 2.4 JSON 넘기기 - ResponseEntity 객체 사용
+
+```java
+package hello.springmvc.basic.response;
+
+import hello.springmvc.basic.BmiData;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@Controller
+public class ResponseController {
+    @GetMapping("/kms-response-json-v1")
+    public ResponseEntity<BmiData> responseJsonV1(){
+        BmiData bmiData = new BmiData();
+        bmiData.setName("kms");
+        bmiData.setHeight(178);
+        bmiData.setWeight(74);
+        return new ResponseEntity<>(bmiData,HttpStatus.OK);
+    }
+
+}
+
+```
+
+직접 객체를 만들고 그 객체에 값을 넣어서 반환한다.
+
+## 2.5 JSON 넘기기 - @ResponseBody 사용.
+
+```java
+package hello.springmvc.basic.response;
+
+import hello.springmvc.basic.BmiData;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@Controller
+public class ResponseController {
+    @ResponseBody
+    @GetMapping("/kms-response-json-v2")
+    public BmiData responseJsonV2(){
+        BmiData bmiData = new BmiData();
+        bmiData.setName("jyb");
+        bmiData.setHeight(160);
+        bmiData.setWeight(47);
+        return bmiData;
+    }
+}
+
+```
+
+사실 이렇게만 보면 ResponseEntity가 더 좋아보인다. 왜? ResponseEntity는 개발자가 상태코드를 넣어줄 수 있었기 때문이다.
+
+_@ResponseBody_ 는 그런 기능을 제공 안하는걸까? 그렇다. 대신 _@ResponseStatus(HttpStatus.OK)_ 를 넣어주면 된다.
+
+요로콤
+
+```java
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    @GetMapping("/kms-response-json-v2")
+    public BmiData responseJsonV2(){
+        BmiData bmiData = new BmiData();
+        bmiData.setName("jyb");
+        bmiData.setHeight(160);
+        bmiData.setWeight(47);
+        return bmiData;
+    }
+```
+
+근데 이 역시도 한계가 있다. 코드 내에서 분기별로 상태코드를 줘야할 때 그러지 못한다는 점이다.
+
+## 2.6 @RestController
+
+@RestController
+@Controller 대신에 @RestController 애노테이션을 사용하면, 해당 컨트롤러에 모두
+@ResponseBody 가 적용되는 효과가 있다.  
+
+따라서 뷰 템플릿을 사용하는 것이 아니라, HTTP 메시지 바디에 직접 데이터를 입력한다.
+
+이름 그대로 Rest API(HTTP API)를 만들 때 사용하는 컨트롤러이다.
+
+참고로 @ResponseBody 는 클래스 레벨에 두면 전체에 메서드에 적용되는데, @RestController
+에노테이션 안에 @ResponseBody 가 적용되어 있다.
+
+즉 위의코드의 통합본으로 밑과 같이 작성하면 전부 잘 동작한다는 것이다.
+
+무한으로 _@ResponseBody_를 쓰는 것을 줄여주고, 모든 메소드에 적용되기 때문에 API에 적합하다는 것이다. 어느 한 군데는 view를 반환해야한다면 쓸 수가 없기 때문이다.!
+
+
+
+```java
+package hello.springmvc.basic.response;
+
+import hello.springmvc.basic.BmiData;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+//@Controller + @ResponseBody = @RestController
+@RestController
+public class ResponseController {
+
+    @GetMapping("/kms-response-string-v1")
+    public void responseBodyV1(HttpServletRequest request, HttpServletResponse response)throws IOException {
+        response.getWriter().write("V1 ok");
+    }
+
+    @GetMapping("/kms-response-string-v2")
+    public ResponseEntity<String> responseBodyV2(){
+        return new ResponseEntity<>("V2 ok", HttpStatus.OK);
+    }
+    
+    @GetMapping("/kms-response-string-v3")
+    public String responseBodyV3(){
+        return "V3 ok";
+    }
+
+    @GetMapping("/kms-response-json-v1")
+    public ResponseEntity<BmiData> responseJsonV1(){
+        BmiData bmiData = new BmiData();
+        bmiData.setName("kms");
+        bmiData.setHeight(178);
+        bmiData.setWeight(74);
+        return new ResponseEntity<>(bmiData,HttpStatus.OK);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/kms-response-json-v2")
+    public BmiData responseJsonV2(){
+        BmiData bmiData = new BmiData();
+        bmiData.setName("jyb");
+        bmiData.setHeight(160);
+        bmiData.setWeight(47);
+        return bmiData;
+    }
+}
+
+```
