@@ -125,3 +125,77 @@ void hello(@RequestBody BmiData data) {}
     - HTTP 요청의 Accept 미디어 타입을 지원하는가?
 3. canWrite() 조건을 만족하면 write()를 호출해서 HTTP 응답 메시지 바디에 데이터를 전달!
 
+# 메시지 컨버터의 위치
+
+어딨는걸까?
+
+스프링MVC구조를 보자.
+
+![](img/mvcStructure.png)  
+> 출처 : 김영한 선생님 강의 노트
+
+어딨음?
+
+잘 생각해보면 뻔하다.
+
+결국 핸들러 어댑터에서 컨트롤러에 등록된 함수들을 실행할텐데 그 함수들에는 애노테이션이 덕지덕지 붙어있을 것 아닌가? 그래서 핸들러 어댑터와 핸들러 사이에 위치해있다.
+
+![](img/handlerspot.png)  
+> 출처 : 김영한 선생님 강의 노트
+
+그렇다. 저 중간에서 애노테이션들을 보고 요청값에 따른, 리턴값을 정해주고 데이터를 처리해준다.
+
+## ArgumentResolver
+
+*ArgumentResolver*가 요청에 대한 파라미터들을 처리해버려서 컨트롤러가 필요로 하는 다양한 파라미터 값의 객체를 생성해서 컨트롤러에 넘겨준다.
+
+### 동작방식
+
+*ArgumentResolver*안에 있는 *supportParameter()*를 호출해서 파라미터에 대한 객체를 생성할 수 있는지 여부를 확인한다. 
+
+생성할 수 있으면 객체를 생성해서 컨트롤러에 넘겨준다.
+
+원한다면 개발자가 커스텀마이징을 할 수 있다.!
+
+## ReturnValueHandler
+
+정식명칭은 *HandlerMethodReturnValueHandler*인데 줄여서 *ReturnValueHandler*라고 한다.
+
+간단하게 응답값을 생성해내는데, 컨트롤러에서 String으로 뷰 이름을 반환해도 웹이 띄워지게 되는게 이 놈 덕분이다.
+
+-----
+
+생각해보면 메시지 컨버터는 아직 어딨는지 모르겠다.
+
+도대체 어딨어?
+
+결국 저 두 놈도 객체를 생성할때 누군가의 도움이 필요하다. 저 두 놈이 여러 요청 파라미터에 대해서 여러 객체를 생성할텐데 객체를 생성할때 메시지 컨버터가 도와준다.
+
+따라서 여기에 있다.
+
+![](img/converterspot.png)
+
+흐름을 다시 보자.
+
+**요청의 경우**는 @Requestbody를 처리하는 ArgumentResolver가 있고, HttpEntity를 처리하는 ArgumentResolver가 있을 것이다. 이 ArgumentResolver 들이 HTTP 메시지 컨버터를 사용해서 필요한 객체를 생성하는 것이다.
+
+**응답의 경우**는 @ResponseBody를 처리하는 ReturnValueHandler가 있고, HttpEntity를 처리하는 ReturnValueHandler가 있을 것이다.
+여기에 HTTP 메시지 컨버터를 호출해서 응답결과를 만든다.
+
+> 참고 : 스프링 MVC는 @RequestBody @ResponseBody 가 있으면 RequestResponseBodyMethodProcessor (ArgumentResolver) HttpEntity 가 있으면 HttpEntityMethodProcessor (ArgumentResolver)를 사용한다.
+
+
+
+## 확장
+
+스프링은 위에서 말한 **HttpMessageConverter,HandlerMethodArgumentResovler, HandlerReturnValueHandler**를 인터페이스로 제공한다.
+
+확장이 가능하다는 것이다.
+
+기능 확장은 **WebMvcConfiguer**를 상속받아서 가능하다. 여기서 다루지는 않을 것이다.!!
+
+필요할때 찾자 ㅎ
+
+
+
+
