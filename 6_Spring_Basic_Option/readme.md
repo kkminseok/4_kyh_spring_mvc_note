@@ -21,7 +21,6 @@ Dependencies : Spring Web, Thymeleaf, Lombok
 
 ![](img/index.png)  
 
-**밑의 내용은 추가 됩니다.**
 
 1. 로그 테스트(1_Logging.md)
 2. 요청 매핑(2_Mapping.md)
@@ -30,5 +29,4 @@ Dependencies : Spring Web, Thymeleaf, Lombok
 5. HTTP 에서 응답하는데 직접 메시지 바디를 꾸려서 응답하는 방법.(5_HTTP_Response_Web.md)
 6. HTTP Message Converter에 대한 내용(6_MessageConverter.md)
    
-...
 
