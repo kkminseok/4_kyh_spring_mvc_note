@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>Infomation Champion</h2>
+    </div>
+    <div>
+        <label for="chamId"> Cham ID</label>
+        <input type="text" id="chamId" name="chamId" class="form-control"
+               value="1" readonly>
+    </div>
+    <div>
+        <label for="chamName">Champion name</label>
+        <input type="text" id="chamName" name="chamName" class="form-control"
+               value="Champion None" readonly>
+    </div>
+    <div>
+        <label for="price">Price</label>
+        <input type="text" id="price" name="price" class="form-control"
+               value="10000" readonly>
+    </div>
+    <div>
+        <label for="comment">Comment</label>
+        <input type="text" id="comment" name="comment" class="form-control"
+               value="10" readonly>
+    </div>
+    <hr class="my-4">
+    <div class="row">
+        <div class="col">
+            <button class="w-100 btn btn-primary btn-lg"
+                    onclick="location.href='editForm.html'" type="button">Edit Champions Info</button>
+        </div>
+        <div class="col">
+            <button class="w-100 btn btn-secondary btn-lg"
+                    onclick="location.href='champions.html'" type="button">main</button>
+        </div>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>
