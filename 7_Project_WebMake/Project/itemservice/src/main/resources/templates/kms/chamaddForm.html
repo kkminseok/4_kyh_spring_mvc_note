@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link href="../css/bootstrap.min.css"
+          th:href="@{/css/bootstrap.min.css}"
+          rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>Add champion Form</h2>
+    </div>
+    <h4 class="mb-3">Add champion</h4>
+    <form action="champion.html" th:action method="post">
+        <div>
+            <label for="chamName">Champion Name</label>
+            <input type="text" id="chamName" name="chamName" class="form-control" placeholder="input champion name">
+        </div>
+        <div>
+            <label for="price">Price</label>
+            <input type="text" id="price" name="price" class="form-control"
+                   placeholder="input Price">
+        </div>
+        <div>
+            <label for="comment">comment</label>
+            <input type="text" id="comment" name="comment" class="form-control" placeholder="input comment">
+        </div>
+        <hr class="my-4">
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg"
+                        type="submit">add champion</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        onclick="location.href='champions.html'"
+                        th:onclick="|location.href='@{/kms/champions}'|"
+                        type="button">cancle</button>
+            </div>
+        </div>
+    </form>
+</div> <!-- /container -->
+</body>
+</html>

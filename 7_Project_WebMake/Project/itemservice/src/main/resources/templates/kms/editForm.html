@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link href="../css/bootstrap.min.css"
+          th:href="@{/css/bootstrap.min.css}"
+          rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>Edit Champion info form</h2>
+    </div>
+    <form action="champion.html" th:action method="post">
+        <div>
+            <label for="id">Champion ID</label>
+            <input type="text" id="id" name="id" class="form-control" value="1"
+                   th:value="${champion.id}"
+                   readonly>
+        </div>
+        <div>
+            <label for="chamName">Champion Name</label>
+            <input type="text" id="chamName" name="chamName" class="form-control" value="ChampionA"
+                   th:value="${champion.chamName}">
+        </div>
+        <div>
+            <label for="price">Price</label>
+            <input type="text" id="price" name="price" class="form-control"
+                   value="10000"
+                   th:value="${champion.price}">
+        </div>
+        <div>
+            <label for="quantity">comment</label>
+            <input type="text" id="quantity" name="comment" class="form-control" value="10"
+            th:value="${champion.comment}">
+        </div>
+        <hr class="my-4">
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit">save
+                </button>
+            </div>
+            <div class="col ">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        onclick="location.href='champion.html'"
+                        th:onclick="|location.href='@{/kms/champions/{chamId}(chamId = ${champion.id})}'|"
+                        type="button">cancle</button>
+            </div>
+        </div>
+    </form>
+</div> <!-- /container -->
+</body>
+</html>
