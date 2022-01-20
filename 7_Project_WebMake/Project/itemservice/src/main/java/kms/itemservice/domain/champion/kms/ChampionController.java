@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -36,9 +37,11 @@ public class ChampionController {
     }
 
     @PostMapping("/add")
-    public String addCham1( Champion champion,Model model){
-        championRepository.save(champion);
-        return "/kms/champion";
+    public String addCham1(Champion champion, RedirectAttributes redirectAttributes){
+        Champion svchampion = championRepository.save(champion);
+        redirectAttributes.addAttribute("championId",svchampion.getId());
+        redirectAttributes.addAttribute("status",true);
+        return "redirect:/kms/champions/{championId}" ;
     }
 
     //@PostMapping("/add")
